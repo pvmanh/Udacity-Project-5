@@ -5,12 +5,12 @@
 
 # Step 1:
 # Create dockerpath
-pathdocker="kabuto01/udacity-project-4:v1.0.0"
+pathdocker="kabuto01/udacity-project-5:v1.0.0"
 
 # Step 2:  
 # Authenticate & tag
 docker login
-docker tag udacity-project-4 ${pathdocker}
+docker tag udacity-project-5 ${pathdocker}
 echo "Docker ID and Image: $pathdocker"
 
 # Step 3:
