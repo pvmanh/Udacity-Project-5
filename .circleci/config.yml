@@ -51,7 +51,7 @@ jobs:
       - run:
           name: Build & push docker
           command: |
-            chmod +x .
+            chmod +x ./
             ./run_docker.sh
             ./upload_docker.sh
 
