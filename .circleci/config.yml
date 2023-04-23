@@ -48,6 +48,8 @@ jobs:
       - image: cimg/go:1.20.3
     steps:
       - checkout
+      - setup_remote_docker:
+          version: 20.10.14
       - run:
           name: Build & push docker
           command: |
