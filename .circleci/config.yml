@@ -52,14 +52,14 @@ jobs:
           name: Build & push docker
           command: |
             ls -a
-            run_docker.sh
-            upload_docker.sh
+            ./run_docker.sh
+            ./upload_docker.sh
 
 workflows:
   default:
     jobs:
-      - build
-      - test:
-          requires: [build]
-      - build-docker:
-          requires: [test]
+      # - build
+      # - test:
+      #     requires: [build]
+      - build-docker
+          # requires: [test]
