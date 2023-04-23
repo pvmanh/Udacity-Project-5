@@ -50,7 +50,7 @@ jobs:
       - checkout
       - run:
           name: Build & push docker
-          command:
+          command: |
             ls -a
             run_docker.sh
             upload_docker.sh
