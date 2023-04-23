@@ -43,9 +43,22 @@ jobs:
             make install
             make lint 
 
+  build-docker:
+    docker:
+      - image: python:3.7.3-stretch
+    steps:
+      - checkout
+      - run:
+          name: Build & push docker
+          command:
+            .\run_docker.sh
+            .\upload_docker.sh
+
 workflows:
   default:
     jobs:
       - build
       - test:
           requires: [build]
+      - build-docker:
+          requires: [test]
