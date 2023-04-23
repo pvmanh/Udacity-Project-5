@@ -51,8 +51,9 @@ jobs:
       - run:
           name: Build & push docker
           command:
-            .\run_docker.sh
-            .\upload_docker.sh
+            ls -a
+            run_docker.sh
+            upload_docker.sh
 
 workflows:
   default:
