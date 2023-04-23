@@ -1,4 +1,4 @@
-FROM nginx
+FROM nginx:3.7
 
 #Delete default index.html
 RUN rm /usr/share/nginx/html/index.html
