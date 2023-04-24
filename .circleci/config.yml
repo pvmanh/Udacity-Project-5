@@ -64,8 +64,8 @@ jobs:
 workflows:
   default:
     jobs:
-      # - build
-      # - test:
-      #     requires: [build]
-      - build-docker
-          # requires: [test]
+      - build
+      - test:
+          requires: [build]
+      - build-docker:
+          requires: [test]
