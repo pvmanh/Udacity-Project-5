@@ -4,7 +4,7 @@
 
 # Step 1:
 # Build image and add a descriptive tag
-docker build --tag=udacity-project-5:${CIRCLE_WORKFLOW_ID:0:7} .
+docker build --tag=udacity-project-5 .
 
 # Step 2: 
 # List docker images
