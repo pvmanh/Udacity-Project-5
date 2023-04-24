@@ -5,7 +5,7 @@
 
 # Step 1:
 # Create dockerpath
-pathdocker="kabuto01/udacity-project-5:v1.0.0"
+pathdocker="kabuto01/udacity-project-5:${CIRCLE_WORKFLOW_ID:0:7}"
 
 # Step 2:  
 # Authenticate & tag
