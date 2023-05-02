@@ -38,9 +38,12 @@ jobs:
             - v1-dependencies-{{ checksum "requirements.txt" }}
             - v1-dependencies-
       - run:
-          name: run test lint
+          name: install dependencies
           command: |
             make install
+      - run:
+          name: run test lint
+          command: |
             make lint 
 
   build-docker:
