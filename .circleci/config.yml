@@ -93,3 +93,6 @@ workflows:
           requires: [test]
       - deploy-infrastructure:
           requires: [build-docker]
+          filters:
+            branches:
+              only: [main]
