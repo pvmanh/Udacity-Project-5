@@ -122,15 +122,17 @@ jobs:
             curl --silent --location "https://github.com/weaveworks/eksctl/releases/latest/download/eksctl_$(uname -s)_amd64.tar.gz" | tar xz -C /tmp
             mv /tmp/eksctl /usr/local/bin
             eksctl version
-      # - run:
-      #     name: Create cluster
-      #     command: |
-      #       export CLUSTER=$(eksctl get cluster --name cluster-udapeople)
-      #       echo "Get cluster:" ${CLUSTER}
-      #       if ${CLUSTER} | grep "Error"
-      #       then
-      #         eksctl create cluster --name cluster-udapeople --region "$AWS_DEFAULT_REGION" --nodegroup-name cluster-udapeople --nodes 2 --ssh-access --ssh-public-key udapeople --managed
-      #       fi
+      - run:
+          name: Create cluster
+          command: |
+            export CLUSTER=$(eksctl get cluster --name cluster-udapeople)
+            echo "Get cluster:" ${CLUSTER}
+            if ${CLUSTER} | grep "Error"
+            then
+              eksctl create cluster --name cluster-udapeople --region "$AWS_DEFAULT_REGION" --nodegroup-name cluster-udapeople --nodes 2 --ssh-access --ssh-public-key udapeople --managed
+              kubectl cluster-info
+              kubectl get pods
+            fi
       
   deploy-frontend:
     docker:
@@ -219,23 +221,23 @@ jobs:
 workflows:
   default:
     jobs:
-      # - build
-      # - test:
-      #     requires: [build]
-      # - build-docker:
-      #     requires: [test]
-      # - deploy-infrastructure:
-      #     requires: [build-docker]
-      #     filters:
-      #       branches:
-      #         only: [main]
-      - configure-infrastructure
-          # requires: [deploy-infrastructure]
-      # - deploy-frontend:
-      #     requires: [configure-infrastructure]
-      # - smoke-test:
-      #     requires: [deploy-frontend]
-      # - cloudfront-update:
-      #     requires: [smoke-test]
-      # - cleanup:
-      #     requires: [cloudfront-update]
+      - build
+      - test:
+          requires: [build]
+      - build-docker:
+          requires: [test]
+      - deploy-infrastructure:
+          requires: [build-docker]
+          filters:
+            branches:
+              only: [main]
+      - configure-infrastructure:
+          requires: [deploy-infrastructure]
+      - deploy-frontend:
+          requires: [configure-infrastructure]
+      - smoke-test:
+          requires: [deploy-frontend]
+      - cloudfront-update:
+          requires: [smoke-test]
+      - cleanup:
+          requires: [cloudfront-update]
