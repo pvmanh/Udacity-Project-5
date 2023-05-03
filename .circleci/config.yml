@@ -141,8 +141,7 @@ jobs:
           name: deploy
           command: |
             aws eks update-kubeconfig --name cluster-udapeople
-            kubectl apply -f .circleci/files/deploy.yml
-            kubectl get service/loadbalancer-service
+            kubectl proxy
             kubectl get deploy,rs,svc,pods
       
   deploy-frontend:
