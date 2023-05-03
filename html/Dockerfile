@@ -4,4 +4,4 @@ FROM nginx:1.23.4
 RUN rm /usr/share/nginx/html/index.html
 
 #Copy new index.html to woking directory
-COPY /html/index.html /usr/share/nginx/html
+COPY /index.html /usr/share/nginx/html
