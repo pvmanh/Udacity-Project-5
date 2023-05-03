@@ -137,6 +137,13 @@ jobs:
             then
               eksctl create cluster -f .circleci/files/cluster.yml
             fi
+      - run:
+          name: deploy
+          command: |
+            aws eks update-kubeconfig --name cluster-udapeople
+            kubectl apply -f manifests/deployment_manifest.yml
+            kubectl get service/loadbalancer-service
+            kubectl get deploy,rs,svc,pods
       
   deploy-frontend:
     docker:
@@ -235,7 +242,7 @@ workflows:
       #     filters:
       #       branches:
       #         only: [main]
-      - configure-infrastructure
+      # - configure-infrastructure:
           # requires: [deploy-infrastructure]
       # - deploy-frontend:
       #     requires: [configure-infrastructure]
