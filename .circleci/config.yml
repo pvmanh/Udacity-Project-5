@@ -1,10 +1,6 @@
 # Python CircleCI 2.0 configuration file
 # Check https://circleci.com/docs/2.0/language-python/ for more details
 version: 2.1
-
-orbs:
-  aws-cli: circleci/aws-cli@3.1.4
-
 jobs:
   build:
     docker:
@@ -75,7 +71,7 @@ jobs:
             
   deploy-infrastructure:
     docker:
-      - image: amazon/aws-cli
+      - image: cimg/aws:2023.04
     steps:
       - checkout
       - run:
@@ -86,7 +82,7 @@ jobs:
               --template-file ./.circleci/files/frontend.yml \
               --tags project=udapeople \
               --stack-name "udapeople-frontend-${CIRCLE_WORKFLOW_ID:0:7}" \
-              --parameter-overrides ID="${CIRCLE_WORKFLOW_ID:0:7}
+              --parameter-overrides ID="${CIRCLE_WORKFLOW_ID:0:7}"
 
 workflows:
   default:
