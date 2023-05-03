@@ -225,9 +225,9 @@ jobs:
 workflows:
   default:
     jobs:
-      # - build
-      # - test:
-      #     requires: [build]
+      - build
+      - test:
+          requires: [build]
       # - build-docker:
       #     requires: [test]
       # - deploy-infrastructure:
@@ -235,7 +235,7 @@ workflows:
       #     filters:
       #       branches:
       #         only: [main]
-      - configure-infrastructure
+      # - configure-infrastructure:
           # requires: [deploy-infrastructure]
       # - deploy-frontend:
       #     requires: [configure-infrastructure]
