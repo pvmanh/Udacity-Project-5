@@ -131,13 +131,14 @@ jobs:
       - run:
           name: Create cluster
           command: |
-            export CLUSTER=$(eksctl get cluster --name clusters-udapeople)
+            export CLUSTER=$(eksctl get cluster --name cluster-udapeople)
             echo "Get cluster:" ${CLUSTER}
             if ${CLUSTER}
             then
-              eksctl create cluster --name clusters-udapeople --region "$AWS_DEFAULT_REGION" --nodegroup-name clusters-udapeople --nodes 2 --ssh-access --ssh-public-key udapeople --managed
-              kubectl cluster-info
-              kubectl get pods
+              eksctl create cluster --name cluster-udapeople --region "$AWS_DEFAULT_REGION" --nodegroup-name cluster-udapeople --nodes 2 --ssh-access --ssh-public-key udapeople --managed
+              cd html
+              chmod +x ./run_kubernetes.sh
+              ./run_kubernetes.sh
             fi
       
   deploy-frontend:
@@ -247,4 +248,3 @@ workflows:
           requires: [smoke-test]
       - cleanup:
           requires: [cloudfront-update]
-          

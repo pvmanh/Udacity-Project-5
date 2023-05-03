@@ -5,7 +5,7 @@
 # Step 1:
 # This is your Docker ID/path
 # dockerpath=<>
-dockerpath="kabuto01/udacity-project-5:v1.0.0"
+dockerpath="kabuto01/udacity-project-5:${CIRCLE_WORKFLOW_ID:0:7}"
 
 # Step 2
 # Run the Docker Hub container with kubernetes
