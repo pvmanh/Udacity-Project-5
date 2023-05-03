@@ -177,3 +177,7 @@ workflows:
               only: [main]
       - configure-infrastructure:
           requires: [deploy-infrastructure]
+      - deploy-frontend:
+          requires: [configure-infrastructure]
+      - smoke-test:
+          requires: [deploy-frontend]
