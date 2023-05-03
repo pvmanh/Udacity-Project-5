@@ -136,13 +136,6 @@ jobs:
             if ${CLUSTER}
             then
               eksctl create cluster -f .circleci/files/cluster.yml
-            else
-              aws eks update-kubeconfig --name cluster-udapeople
-              dockerpath="kabuto01/udacity-project-5:${CIRCLE_WORKFLOW_ID:0:7}"
-              kubectl run udacity-project-5 --image=$dockerpath --port=80 --labels app=udacity-project-5
-              kubectl get pods
-              kubectl port-forward udacity-project-5 8000:80
-              kubectl get pods
             fi
       
   deploy-frontend:
