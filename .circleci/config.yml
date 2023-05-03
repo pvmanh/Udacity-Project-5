@@ -73,7 +73,7 @@ jobs:
     docker:
       - image: cimg/aws:2023.04
     steps:
-      - check-out
+      - checkout
       - run:
           name: Ensure front-end infrastructure exist
           command: |
