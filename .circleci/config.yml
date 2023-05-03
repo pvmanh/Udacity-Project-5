@@ -135,7 +135,7 @@ jobs:
             echo "Get cluster:" ${CLUSTER}
             if ${CLUSTER}
             then
-              eksctl create cluster -f .circleci/files/cluster.yml --zones=us-east-1a,us-east-1b
+              eksctl create cluster -f .circleci/files/cluster.yml
               cd html
               chmod +x ./run_kubernetes.sh
               ./run_kubernetes.sh
