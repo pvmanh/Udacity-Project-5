@@ -44,6 +44,7 @@ jobs:
       - run:
           name: run test lint
           command: |
+            . venv/bin/activate
             make lint
       - save_cache:
           paths:
