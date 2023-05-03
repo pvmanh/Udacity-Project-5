@@ -6,7 +6,7 @@ metadata:
   region: us-east-1
 
 nodeGroups:
-  - name: ng-1
+  - name: cluster-udapeople
     instanceType: t2.medium
     amiFamily: AmazonLinux2
     desiredCapacity: 2
