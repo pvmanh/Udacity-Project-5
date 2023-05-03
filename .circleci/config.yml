@@ -44,7 +44,6 @@ jobs:
       - run:
           name: run test lint
           command: |
-            ls ./hadolint
             make lint
       - save_cache:
           paths:
