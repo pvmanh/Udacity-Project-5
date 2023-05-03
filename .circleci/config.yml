@@ -84,7 +84,7 @@ jobs:
               --stack-name "udapeople-frontend-${CIRCLE_WORKFLOW_ID:0:7}" \
               --parameter-overrides ID="${CIRCLE_WORKFLOW_ID:0:7}"
 
-  config-infrastructure:
+  configure-infrastructure:
     docker:
       - image: python:3.11-rc-alpine
     steps:
