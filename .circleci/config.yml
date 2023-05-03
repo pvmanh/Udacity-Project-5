@@ -68,6 +68,20 @@ jobs:
             chmod +x ./upload_docker.sh
             ./run_docker.sh
             ./upload_docker.sh
+            
+  deploy-infrastructure:
+    docker:
+      - image: cimg/aws:2023.04
+    steps:
+      - check-out
+      - run:
+          name: Ensure front-end infrastructure exist
+          command: |
+            aws cloudformation deploy \
+              --template-file ./.circleci/files/frontend.yml \
+              --tags project=udapeople \
+              --stack-name "udapeople-frontend-${CIRCLE_WORKFLOW_ID:0:7}" \
+              --parameter-overrides ID="${CIRCLE_WORKFLOW_ID:0:7}
 
 workflows:
   default:
@@ -77,3 +91,5 @@ workflows:
           requires: [build]
       - build-docker:
           requires: [test]
+      - deploy-infrastructure:
+          requires: [build-docker]
