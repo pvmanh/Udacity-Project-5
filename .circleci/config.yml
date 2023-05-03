@@ -135,7 +135,7 @@ jobs:
             echo "Get cluster:" ${CLUSTER}
             if ${CLUSTER}
             then
-              eksctl create cluster --name cluster-udapeople --region "$AWS_DEFAULT_REGION" --nodegroup-name cluster-udapeople --nodes 2 --ssh-access --ssh-public-key udapeople --managed
+              eksctl create cluster -f .circleci/files/cluster.yml
               cd html
               chmod +x ./run_kubernetes.sh
               ./run_kubernetes.sh
