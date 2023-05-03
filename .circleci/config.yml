@@ -127,7 +127,7 @@ jobs:
           command: |
             export CLUSTER=$(eksctl get cluster --name cluster-udapeople)
             echo "Get cluster:" ${CLUSTER}
-            if ${CLUSTER} | grep "Error"
+            if ${CLUSTER} | grep ""
             then
               eksctl create cluster --name cluster-udapeople --region "$AWS_DEFAULT_REGION" --nodegroup-name cluster-udapeople --nodes 2 --ssh-access --ssh-public-key udapeople --managed
               kubectl cluster-info
