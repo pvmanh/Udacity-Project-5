@@ -16,7 +16,7 @@ jobs:
       - run:
           name: install dependencies
           command: |
-            python3 -m venv ~/.devops
+            python3 -m venv venv
             . venv/bin/activate
             ls ./
             make install
@@ -37,7 +37,7 @@ jobs:
       - run:
           name: install dependencies
           command: |
-            python3 -m venv ~/.devops
+            python3 -m venv venv
             . venv/bin/activate
             ls ./
             make install
