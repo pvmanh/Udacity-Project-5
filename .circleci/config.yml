@@ -141,7 +141,6 @@ jobs:
           name: deploy
           command: |
             aws eks update-kubeconfig --name cluster-udapeople
-            kubectl proxy
             kubectl get deploy,rs,svc,pods
       
   deploy-frontend:
