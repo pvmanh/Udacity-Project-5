@@ -138,9 +138,8 @@ jobs:
               eksctl create cluster -f .circleci/files/cluster.yml
             else
               ls -a
-              cd html
-              chmod +x ./run_kubernetes.sh
-              ./run_kubernetes.sh
+              chmod +x ./html/run_kubernetes.sh
+              ./html/run_kubernetes.sh
             fi
       
   deploy-frontend:
