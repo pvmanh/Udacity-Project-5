@@ -109,6 +109,8 @@ jobs:
       - image: python:3.11-rc-alpine
     steps:
       - checkout
+      - attach_workspace:
+          at: ~/
       - run:
           name: Install dependencies
           command: |
@@ -125,7 +127,7 @@ jobs:
             echo "Get cluster:" ${CLUSTER}
             if ${CLUSTER} | grep "Error"
             then
-              # eksctl create cluster --name cluster-udapeople --region "$AWS_DEFAULT_REGION" --nodegroup-name cluster-udapeople --nodes 2 --ssh-access --ssh-public-key udapeople --managed
+              eksctl create cluster --name cluster-udapeople --region "$AWS_DEFAULT_REGION" --nodegroup-name cluster-udapeople --nodes 2 --ssh-access --ssh-public-key udapeople --managed
             fi
       
   deploy-frontend:
@@ -133,6 +135,8 @@ jobs:
       - image: cimg/aws:2023.04
     steps:
       - checkout
+      - attach_workspace:
+          at: ~/
       - run:
           name: Deploy frontend
           command: |
@@ -161,6 +165,54 @@ jobs:
             fi
       - destroy-environment:
           Workflow_ID: ${CIRCLE_WORKFLOW_ID:0:7}
+
+  cloudfront-update:
+    docker:
+      - image: python:3.7-alpine3.11
+    steps:
+      - checkout
+      - attach_workspace:
+          at: ~/
+      - run:
+          name: Install dependencies
+          command: |
+            apk add --update curl nodejs npm
+            pip install awscli
+      - run:
+          name: Update cloudfront distribution
+          command: |
+            export OldWorkflowID=$(aws cloudformation \
+            list-exports --query "Exports[?Name==\`WorkflowID\`].Value" \
+            --no-paginate --output text)
+            curl --insecure https://kvdb.io/2dSoqsWZxrtJh6LEx8bDN2/old_workflow_id -d "${OldWorkflowID}"
+            echo OldWorkflowID >> ~/$OldWorkflowID.txt
+            cat ~/$OldWorkflowID.txt
+            aws cloudformation deploy \
+            --template-file .circleci/files/cloudfront.yml \
+            --stack-name InitialStack \
+            --parameter-overrides WorkflowID="${CIRCLE_WORKFLOW_ID:0:7}" \
+            --tags project=udapeople
+      - destroy-environment
+
+  cleanup:
+    docker:
+      - image: amazon/aws-cli
+    steps:
+      - checkout
+      - run:
+          name: Get old stack workflow id and clean up
+          command: |
+            export OldWorkflowID=$(curl --insecure https://kvdb.io/2dSoqsWZxrtJh6LEx8bDN2/old_workflow_id)
+            export STACKS=($(aws cloudformation list-stacks --query "StackSummaries[*].StackName" --stack-status-filter CREATE_COMPLETE --no-paginate --output text))
+            echo OldWorkflowID: "${OldWorkflowID}"
+            echo CIRCLE_WORKFLOW_ID "${CIRCLE_WORKFLOW_ID:0:7}"
+            echo Stack names: "${STACKS[@]}"
+            # if [[ "${STACKS[@]}" =~ "${OldWorkflowID}" ]]
+            # then
+            #   aws s3 rm "s3://udapeople-${OldWorkflowID}" --recursive
+            #   aws cloudformation delete-stack --stack-name "udapeople-frontend-${OldWorkflowID}"               
+            # fi
+      - destroy-environment
 
 workflows:
   default:
